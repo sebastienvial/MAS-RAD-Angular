@@ -31,6 +31,7 @@ export class ApiTokenInterceptorService implements HttpInterceptor {
         // If the token exists and the header does not...
         if (token && !req.headers.has("Authorization")) {
           // Clone the actual request and add it the header
+          console.log(`Bearer ${token}`);
           req = req.clone({
             headers: req.headers.set("Authorization", `Bearer ${token}`),
           });

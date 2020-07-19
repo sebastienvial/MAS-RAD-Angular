@@ -1,0 +1,13 @@
+<p>choice-position-page works!</p>
+<div class="container">
+    <form #choiceForm="ngForm" (submit)="showPosition(choiceForm)">
+        <div class="form-group">
+            <label for="selectTown">Sélectionner la ville</label>
+            <input [(ngModel)]="town" type="text" name="selectTown" class="form-control" placeholder="Entrer le code postal d'une ville" required />
+        </div>
+
+        <button type="submit" class="btn btn-success" [disabled]="choiceForm.invalid">Enter</button>
+
+    </form>
+    <p>{{choiceForm.invalid}}</p>
+</div>
