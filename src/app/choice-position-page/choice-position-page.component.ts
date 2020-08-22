@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-choice-position-page',
@@ -9,7 +10,8 @@ import { NgForm } from '@angular/forms';
 export class ChoicePositionPageComponent implements OnInit {
 
   town: string;
-  constructor() { }
+  coordonee = {cd: 4};
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -21,8 +23,11 @@ export class ChoicePositionPageComponent implements OnInit {
 
       //requête pour identifier les coordonéées gps selon un code postal en Suisse
       // https://nominatim.openstreetmap.org/search?format=json&limit=3&q=1623,Switzerland
-      
 
+      //appel de la carte avec les coordonnées
+      //this.router.navigate(['/map', this.coordonee]);
+      this.router.navigateByUrl('/map');
+      
     }
   }
 

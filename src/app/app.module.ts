@@ -13,12 +13,18 @@ import { SecurityModule } from './security/security.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProvideIssuePageComponent } from './provide-issue-page/provide-issue-page.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { MapCpnComponent } from './components/map-cpn/map-cpn.component';
 
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { SidebarModule } from 'ng-sidebar';
 import { ChoicePositionPageComponent } from './choice-position-page/choice-position-page.component';
 import { FormsModule } from '@angular/forms';
+import { IssueCreationComponent } from './components/issue-creation/issue-creation.component';
+import { IssueVueComponent } from './components/issue-vue/issue-vue.component';
+import { IssueComponent } from './components/issue/issue.component';
+import { CitizenPageComponent } from './citizen-page/citizen-page.component';
+import { MapComponent } from './components/map/map.component';
+import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -27,8 +33,14 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     DummyPageComponent,
     ProvideIssuePageComponent,
-    MapCpnComponent,
     ChoicePositionPageComponent,
+    IssueCreationComponent,
+    IssueVueComponent,
+    IssueComponent,
+    CitizenPageComponent,
+    MapComponent,
+    IssueDetailComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

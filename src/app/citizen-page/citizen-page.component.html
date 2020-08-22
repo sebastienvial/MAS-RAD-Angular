@@ -1,0 +1,12 @@
+<!-- <p>citizen-page works!</p> -->
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <!-- <app-issue [newIssueLocation]="newMarkerPosition" [action]="action"></app-issue> -->
+            <router-outlet></router-outlet>
+        </div>
+        <div class="col-9">
+            <app-map (sendMarkerPosition)="processMarkerPosition($event)"></app-map>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<!-- <p>issue-vue works!</p> -->
+<div *ngFor="let issue of allIssues" class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+    <div class="card-header">{{issue.issueType.name}} </div>
+    <div class="card-body">
+        <!-- <h5 class="card-title">Secondary card title</h5> -->
+        <p class="card-text">{{issue.description}}</p>
+        <a [routerLink]="['/citizen', 'detail']" class="card-link">Detail</a>
+        <a class="card-link" (click)="showOnMap(issue)">Show on map</a>
+
+
+
+    </div>
+</div>
+
+<!-- <option *ngFor="let issueType of issueTypes" [value]="issueType.name">{{issueType.name}}</option> -->

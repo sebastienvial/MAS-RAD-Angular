@@ -1,5 +1,9 @@
 <h2>Login Page</h2>
 <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" class="form-control" id="description" placeholder="Description du problème" ngModel name="description">
+    </div>
     <div>
         <label for="name">Name</label>
         <input type="text" name="name" id="name" #nameField="ngModel" required [(ngModel)]="authRequest.name" />
