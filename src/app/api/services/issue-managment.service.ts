@@ -12,7 +12,7 @@ import { IssueResponse } from 'src/app/models/issue-response';
 })
 export class IssueManagmentService {
   mapMarkers: Marker[] = new Array<Marker>(0);
-  issueActive: string;
+  issueActive: Issue;
 
   constructor(private http: HttpClient ) {
     this.getAllMarkers();
@@ -36,7 +36,7 @@ export class IssueManagmentService {
 
     this.loadAllIssues().subscribe(issues => {issues.forEach(issue => {
       //console.log(issue.location.coordinates);
-      if ( this.issueActive==issue.id){
+      if ( this.issueActive==issue){
         this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: greenIcon }));  
         console.log('marker vert',issue.description);
       } else {
@@ -50,7 +50,7 @@ export class IssueManagmentService {
 
   postNewIssue(newIssue: Issue): Observable<Issue> {
     //console.log('Issue management',newIssue);
-    newIssue.issueTypeHref = '/api/issueTypes/5f1e99e934d50b00163ff4ce'; //Graffiti
+    //newIssue.issueTypeHref = '/api/issueTypes/5f1e99e934d50b00163ff4ce'; //Graffiti
     return this.http.post<Issue>(`${environment.apiUrl}/issues`, newIssue);
   }
 

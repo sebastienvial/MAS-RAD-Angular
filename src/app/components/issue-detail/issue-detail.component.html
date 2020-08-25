@@ -1,10 +1,20 @@
-<p>issue-detail works!</p>
+<!-- <p>issue-detail works!</p> -->
+<a href="#" class="btn btn-primary btn-sm">Back</a>
 
-<div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="card text-white mb-3" style="max-width: 18rem;">
+    <div class="card-header bg-secondary">{{issueDetail.issueType.name}}>
+    </div>
+    <img src="{{issueDetail.imageUrl}}" class="card-img-top" alt="...">
+    <div class="card-body bg-success">
+        <!-- <h5 class="card-title">Secondary card title</h5> -->
+        <p class="card-text">{{issueDetail.description}}</p>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">premier commentaire</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-sm">Add comment</a>
+        <a href="#" class="btn btn-secondary btn-sm">Update</a>
+        <a href="#" class="btn btn-danger btn-sm">Delete</a>
     </div>
 </div>

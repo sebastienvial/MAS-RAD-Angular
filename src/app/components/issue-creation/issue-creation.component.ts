@@ -8,6 +8,11 @@ import { MapManagmentService } from 'src/app/services/map-managment.service';
 import { Marker } from 'leaflet';
 import { redIcon } from '../map/default-marker';
 import { NgForm} from '@angular/forms';
+import { ImageService } from 'src/app/api/services/image.service';
+import { FileUploader } from 'ng2-file-upload';
+
+const URL = 'http://localhost:4000/api/upload';
+
 
 @Component({
   selector: 'app-issue-creation',
@@ -20,8 +25,13 @@ export class IssueCreationComponent implements OnInit {
   newIssue: Issue;
   issueTypes: IssueType[];
   newMarker: Marker;
+  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
 
-  constructor(private issueTypeService: IssueTypeService, private issueManagmentService: IssueManagmentService, private mapManagment: MapManagmentService) {     
+  constructor(private issueTypeService: IssueTypeService, 
+              private issueManagmentService: IssueManagmentService, 
+              private mapManagment: MapManagmentService,
+              private imgService: ImageService) {
+                
     this.issueTypeService.loadAllIssueTypes().subscribe({
       next: (result) => this.issueTypes = result,
       error: (error) => console.warn("Error", error),
@@ -32,6 +42,11 @@ export class IssueCreationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+       console.log('ImageUpload:uploaded:', item, status, response);
+       alert('File uploaded successfully');
+  };
   }
 
   initNewIssue() {
@@ -50,18 +65,38 @@ export class IssueCreationComponent implements OnInit {
     
   }
 
-  
+  handleFiles(files: any) {
+     console.log(files);
+     const file = files;
+     this.imgService.postImage(file);
+  }
 
   createNewIssue(form: NgForm) {
 
     if(form.valid) {
+      
+
       //Création de la nouvelle issue
       this.newIssue = new Issue();
+      // this.newIssue.issueTypeHref = this.issueTypes.find(issueType => {
+      //   (issueType.name==form.controls.issueType.value);
+      // }).href;
+
+      this.issueTypes.forEach(issueType => {
+        if (issueType.name==form.controls.issueType.value) {
+          // console.log(issueType.href);
+          this.newIssue.issueTypeHref = issueType.href;
+        }
+      });
+
+      console.log(this.newIssue.issueTypeHref);
       this.newIssue.description = form.controls.description.value;
       this.newIssue.imageUrl = form.controls.imageUrl.value;
+      // this.imgService.postImage(form.controls.imageUrl.nativeElement);
+      this.newIssue.imageUrl = "https://comem-qimg.herokuapp.com/images/83d102ee-3614-4317-bdfb-1481babfd431.png";
       this.newIssue.location = this.mapManagment.positionNewMarker.value;
       // if(form.controls.tag.value =='') form.controls.tag.value = ' ';
-      this.newIssue.tags = form.controls.tag.value.split(';');
+      //this.newIssue.tags = form.controls.tag.value.split(';');
     
       // console.log(this.newIssue);
 
@@ -72,5 +107,16 @@ export class IssueCreationComponent implements OnInit {
     }
 
   }
+
+  uploadImg() {
+    // this.imgService.postImage(form.controls.)
+  }
+
+  // lireImage() {
+  //   console.log("début lecture image");
+  //   this.imgService.getImages().subscribe((images)=>{
+  //     console.log(images);
+  //   })
+  // }
 
 }

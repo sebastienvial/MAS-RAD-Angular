@@ -1,12 +1,16 @@
 <!-- <p>issue-vue works!</p> -->
-<div *ngFor="let issue of allIssues" class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
-    <div class="card-header">{{issue.issueType.name}} </div>
-    <div class="card-body">
+<div *ngFor="let issue of allIssues" class="card text-white mb-3" style="max-width: 18rem;">
+    <div class="card-header bg-secondary">{{issue.issueType.name}}</div>
+    <div class="card-body bg-success">
         <!-- <h5 class="card-title">Secondary card title</h5> -->
         <p class="card-text">{{issue.description}}</p>
-        <a [routerLink]="['/citizen', 'detail']" class="card-link">Detail</a>
-        <a class="card-link" (click)="showOnMap(issue)">Show on map</a>
-
+        <!-- <a [routerLink]="['/citizen', 'detail']" class="card-link">Detail</a>
+        <a (click)="showOnMap(issue)" class="card-link">Show on map</a> -->
+        <div class="btn-group" role="group">
+            <!-- <a [routerLink]="['/citizen', 'detail']" class="btn btn-primary btn-sm">Detail</a> -->
+            <a (click)="showDetail(issue)" class="btn btn-primary btn-sm">Detail</a>
+            <a (click)="showOnMap(issue)" class="btn btn-primary btn-sm">Show on map</a>
+        </div>
 
 
     </div>
