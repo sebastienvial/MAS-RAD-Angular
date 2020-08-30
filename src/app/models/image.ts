@@ -4,4 +4,5 @@ export class Image {
     size?: number;
     token?: string;
     url?: string;
+    data?: any;
 }

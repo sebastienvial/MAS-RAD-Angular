@@ -49,8 +49,6 @@ export class IssueManagmentService {
   }
 
   postNewIssue(newIssue: Issue): Observable<Issue> {
-    //console.log('Issue management',newIssue);
-    //newIssue.issueTypeHref = '/api/issueTypes/5f1e99e934d50b00163ff4ce'; //Graffiti
     return this.http.post<Issue>(`${environment.apiUrl}/issues`, newIssue);
   }
 
@@ -63,6 +61,7 @@ export class IssueManagmentService {
   }
 
   deleteIssue(id: string): Observable<any> {
+    console.log('suppression :', id );
     return this.http.delete<any>(`${environment.apiUrl}/issues/${id}`);
   }
 

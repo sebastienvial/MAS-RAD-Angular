@@ -1,5 +1,5 @@
 <!-- <p>issue-detail works!</p> -->
-<a href="#" class="btn btn-primary btn-sm">Back</a>
+<!-- <a href="#" class="btn btn-primary btn-sm">Back</a> -->
 
 <div class="card text-white mb-3" style="max-width: 18rem;">
     <div class="card-header bg-secondary">{{issueDetail.issueType.name}}>
@@ -13,8 +13,9 @@
             <li class="list-group-item">Dapibus ac facilisis in</li>
             <li class="list-group-item">Vestibulum at eros</li>
         </ul>
+        <p class="card-text">{{issueDetail.tags}}</p>
         <a href="#" class="btn btn-primary btn-sm">Add comment</a>
         <a href="#" class="btn btn-secondary btn-sm">Update</a>
-        <a href="#" class="btn btn-danger btn-sm">Delete</a>
+        <a (click)="deleteIssue(issueDetail)" class="btn btn-danger btn-sm">Delete</a>
     </div>
 </div>

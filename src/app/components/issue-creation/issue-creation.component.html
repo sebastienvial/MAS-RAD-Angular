@@ -4,7 +4,7 @@
     Click to report an Issue
 </div>
 
-<button>Essai</button>
+<!-- <button>Essai</button> -->
 
 <!-- <form *ngIf="newMarker" issue #issueForm="ngForm" (submit)="createNewIssue(issueForm)"> -->
 <form issue #issueForm="ngForm" (submit)="createNewIssue(issueForm)">
@@ -19,14 +19,14 @@
         <input type="text" class="form-control" id="description" placeholder="Description du problème" ngModel name="description" required>
     </div>
     <div class="form-group">
-
         <label for="imageUrl">Image</label>
-        <!-- <input #fileImg type="file" class="form-control-file" id="imageUrl" ngModel name="imageUrl" (change)="handleFiles(fileImg.value)"> -->
-        <!-- <input type="file" ng2FileSelect [uploader]="uploader" /> -->
+        <input type="text" class="form-control" id="imageUrl" placeholder="Image URL" ngModel name="imageUrl">
+        <!-- <input #fileUpload (change)="handleFile($event)" type="file" class="form-control-file" id="image" ngModel name="imag">
+        <button (click)="onClick()">essai</button> -->
     </div>
     <div class=" form-group ">
-        <label for="tag ">Tag</label>
-        <input type="text " class="form-control " id="tag " placeholder="Ajouter tags séparés par ; " ngModel name="tag " value=" ">
+        <label for="tag">Tag</label>
+        <input type="text " class="form-control " id="tag" placeholder="Ajouter tags séparés par ; " ngModel name="tag">
     </div>
 
     <!-- <div class="form-check ">

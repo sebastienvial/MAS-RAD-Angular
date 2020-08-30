@@ -26,6 +26,8 @@ import { MapComponent } from './components/map/map.component';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { HeaderComponent } from './components/header/header.component';
 
+// import { FileSelectDirective } from 'ng2-file-upload';
+
 
 
 @NgModule({
@@ -51,6 +53,7 @@ import { HeaderComponent } from './components/header/header.component';
     LeafletModule,
     AlertModule.forRoot(),
     SidebarModule.forRoot(),
+    // FileSelectDirective,
     FormsModule,
   ],
   providers: [

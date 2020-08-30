@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Location } from 'src/app/models/location';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
 import { IssueType } from 'src/app/models/issue-type';
@@ -9,7 +9,10 @@ import { Marker } from 'leaflet';
 import { redIcon } from '../map/default-marker';
 import { NgForm} from '@angular/forms';
 import { ImageService } from 'src/app/api/services/image.service';
-import { FileUploader } from 'ng2-file-upload';
+import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
+import { map, catchError } from 'rxjs/operators';
+import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
+import { of } from 'rxjs';
 
 const URL = 'http://localhost:4000/api/upload';
 
@@ -20,12 +23,15 @@ const URL = 'http://localhost:4000/api/upload';
   styleUrls: ['./issue-creation.component.scss']
 })
 export class IssueCreationComponent implements OnInit {
+  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;
+  files  = [];
+  
   //identifie la localisation du point sur la carte où se trouve le problème
   @Input() newIssueLocation: Location;
   newIssue: Issue;
   issueTypes: IssueType[];
   newMarker: Marker;
-  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
+  uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
 
   constructor(private issueTypeService: IssueTypeService, 
               private issueManagmentService: IssueManagmentService, 
@@ -36,10 +42,19 @@ export class IssueCreationComponent implements OnInit {
       next: (result) => this.issueTypes = result,
       error: (error) => console.warn("Error", error),
     }); 
-    
-    // this.newIssueLocation = new Location();
-
+   
   }
+
+
+onClick() { 
+  const fileUpload = this.fileUpload.nativeElement;
+  this.imgService.postNewImage(fileUpload.files[0]).subscribe(res => {
+    console.log(res);
+  })
+
+
+}
+
 
   ngOnInit(): void {
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
@@ -65,40 +80,47 @@ export class IssueCreationComponent implements OnInit {
     
   }
 
-  handleFiles(files: any) {
-     console.log(files);
-     const file = files;
-     this.imgService.postImage(file);
+  handleFile(event) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.imgService.getBase64(file).then((data)=>{
+        this.imgService.img64.data = data;
+        console.log('handle64 :',this.imgService.img64.data);
+      });
+      // this.imgService.postImage(file);
+    }
+     
   }
 
   createNewIssue(form: NgForm) {
 
-    if(form.valid) {
+    if(form.valid) { 
       
+      console.log('Form :', form);
 
       //Création de la nouvelle issue
       this.newIssue = new Issue();
-      // this.newIssue.issueTypeHref = this.issueTypes.find(issueType => {
-      //   (issueType.name==form.controls.issueType.value);
-      // }).href;
 
       this.issueTypes.forEach(issueType => {
         if (issueType.name==form.controls.issueType.value) {
-          // console.log(issueType.href);
           this.newIssue.issueTypeHref = issueType.href;
         }
       });
 
-      console.log(this.newIssue.issueTypeHref);
+      // console.log(this.newIssue.issueTypeHref);
       this.newIssue.description = form.controls.description.value;
       this.newIssue.imageUrl = form.controls.imageUrl.value;
-      // this.imgService.postImage(form.controls.imageUrl.nativeElement);
-      this.newIssue.imageUrl = "https://comem-qimg.herokuapp.com/images/83d102ee-3614-4317-bdfb-1481babfd431.png";
       this.newIssue.location = this.mapManagment.positionNewMarker.value;
-      // if(form.controls.tag.value =='') form.controls.tag.value = ' ';
-      //this.newIssue.tags = form.controls.tag.value.split(';');
-    
-      // console.log(this.newIssue);
+      
+      
+
+      if (form.controls.tag.value.length>0) {
+        var tags: string[];
+        tags = form.controls.tag.value.split(';');
+        this.newIssue.tags = tags;
+      }
+        
+
 
       this.issueManagmentService.postNewIssue(this.newIssue).subscribe({
         next: (result) => console.log("Result", result),
