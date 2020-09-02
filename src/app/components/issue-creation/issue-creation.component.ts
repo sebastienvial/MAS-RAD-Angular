@@ -7,31 +7,26 @@ import { IssueManagmentService } from 'src/app/api/services/issue-managment.serv
 import { MapManagmentService } from 'src/app/services/map-managment.service';
 import { Marker } from 'leaflet';
 import { redIcon } from '../map/default-marker';
-import { NgForm} from '@angular/forms';
+import { NgForm, SelectMultipleControlValueAccessor} from '@angular/forms';
 import { ImageService } from 'src/app/api/services/image.service';
-import { FileSelectDirective, FileUploader } from 'ng2-file-upload';
-import { map, catchError } from 'rxjs/operators';
-import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
-import { of } from 'rxjs';
-
-const URL = 'http://localhost:4000/api/upload';
-
 
 @Component({
   selector: 'app-issue-creation',
   templateUrl: './issue-creation.component.html',
   styleUrls: ['./issue-creation.component.scss']
 })
+
 export class IssueCreationComponent implements OnInit {
-  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;
-  files  = [];
+  issueUpdate : Issue;
+
+  private imagesUpload: File[];
+  private imagesUrl: string[];
   
   //identifie la localisation du point sur la carte où se trouve le problème
   @Input() newIssueLocation: Location;
   newIssue: Issue;
   issueTypes: IssueType[];
   newMarker: Marker;
-  uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
 
   constructor(private issueTypeService: IssueTypeService, 
               private issueManagmentService: IssueManagmentService, 
@@ -45,24 +40,31 @@ export class IssueCreationComponent implements OnInit {
    
   }
 
-
-onClick() { 
-  const fileUpload = this.fileUpload.nativeElement;
-  this.imgService.postNewImage(fileUpload.files[0]).subscribe(res => {
-    console.log(res);
-  })
-
-
-}
-
-
   ngOnInit(): void {
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
-    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-       console.log('ImageUpload:uploaded:', item, status, response);
-       alert('File uploaded successfully');
-  };
   }
+
+  onChange(files: File[]) {
+    if (files.length>0) {
+      this.imagesUpload = Array.from(files);
+      this.processImage();
+    }
+  }
+
+  processImage() {
+    console.log('Process image begin');
+    this.imagesUrl = new Array<string>();
+    if (this.imagesUpload.length>0) {
+      for (let i=0; i<this.imagesUpload.length; i++) {
+        this.imgService.postNewImage(this.imagesUpload[i]).subscribe((data) =>{
+          this.imagesUrl.push(data.url);
+          console.log('imageUrl : ', this.imagesUrl);          
+        })
+      }
+    }
+
+  }
+
+  
 
   initNewIssue() {
     console.log('initialise une nouvelle issue');
@@ -80,17 +82,6 @@ onClick() {
     
   }
 
-  handleFile(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.imgService.getBase64(file).then((data)=>{
-        this.imgService.img64.data = data;
-        console.log('handle64 :',this.imgService.img64.data);
-      });
-      // this.imgService.postImage(file);
-    }
-     
-  }
 
   createNewIssue(form: NgForm) {
 
@@ -109,11 +100,11 @@ onClick() {
 
       // console.log(this.newIssue.issueTypeHref);
       this.newIssue.description = form.controls.description.value;
-      this.newIssue.imageUrl = form.controls.imageUrl.value;
+      console.log(this.imagesUrl);
+      this.newIssue.imageUrl = this.imagesUrl[0];
+      this.newIssue.additionalImageUrls = this.imagesUrl.slice(1);
       this.newIssue.location = this.mapManagment.positionNewMarker.value;
       
-      
-
       if (form.controls.tag.value.length>0) {
         var tags: string[];
         tags = form.controls.tag.value.split(';');
@@ -129,16 +120,5 @@ onClick() {
     }
 
   }
-
-  uploadImg() {
-    // this.imgService.postImage(form.controls.)
-  }
-
-  // lireImage() {
-  //   console.log("début lecture image");
-  //   this.imgService.getImages().subscribe((images)=>{
-  //     console.log(images);
-  //   })
-  // }
 
 }

@@ -1,6 +1,4 @@
 import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
-// import { MapOptions, Map, tileLayer, latLng, Marker, marker } from 'leaflet';
-// import *  as L from 'leaflet';
 import { MapOptions, Marker, TileLayer, Map} from 'leaflet';
 import { defaultIcon, greenIcon, redIcon } from './default-marker';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
@@ -34,17 +32,11 @@ export class MapComponent implements OnInit {
       console.log('mapOptions de la map ',this.mapOptions);
     });
     this.mapMarkers = issueManagment.mapMarkers;
-    // this.mapOptions = mapManagment.mpOptions;
   }
 
   ngOnInit(): void {
-    
-
-    this.createMap(); 
-    // this.createMarkers();   
-  }
-
-  
+    this.createMap();   
+  } 
 
 
   createMap() {
@@ -65,7 +57,6 @@ export class MapComponent implements OnInit {
         zoom: zoomLevel,
         center: viewPoint
     };
-
     
     this.mapManagment.updateMapOptions(this.mapOptions);
 
@@ -74,41 +65,5 @@ export class MapComponent implements OnInit {
   onMapReady(map: L.Map){
     this.mymap = map;
   }
-
-  updateMap() {
-    this.mapOptions.zoom = 15;
-    console.log('new zoom' );
-  }
-  createMarkers() {
-    // console.log('Marker depuis map: ', this.issueManagment.mapMarkers);
-    // L.marker([46.778186, 6.641524]).addTo(this.mymap);
-    // this.mapMarkers[1].addTo(this.mymap);
-    // this.mapMarkers.forEach(marker => {marker.addTo(this.mymap)});
-  }
-
-
-  // createNewMarker() {
-  //   console.log('creation du marker : ');
-  //   this.newMarker = L.marker([ 46.771111, 6.641524 ], { icon: redIcon, draggable: true });
-  //   this.newMarkerPosition = new Location();
-  //   this.newMarker.on("moveend", () => {
-  //     this.newMarkerPosition.coordinates =  [this.newMarker.getLatLng().lng,this.newMarker.getLatLng().lat];
-  //     this.newMarkerPosition.type = 'Point'
-  //     // this.sendMarkerPosition.emit(this.newMarkerPosition);
-  //     this.mapManagment.updateMarkerPosition(this.newMarkerPosition);
-  //   });
-  //   this.newMarker.bindTooltip('My new issue');
-  //   this.mapMarkers.push(this.newMarker); 
-  //   this.mymap.invalidateSize();   
-  // }
-
-  sendPosition() {
-    // this.newMarkerPosition.coordinates = [46.771111, 6.641524 ];
-    // this.newMarkerPosition.type = "point";
-    console.log(this.newMarker.getLatLng().lat);
-    //this.sendMarkerPosition.emit({[this.newMarker.getLatLng().lat,this.newMarker.getLatLng().lng], "point"});
-  }
-
-  
 
 }

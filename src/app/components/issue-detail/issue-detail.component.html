@@ -1,21 +1,41 @@
 <!-- <p>issue-detail works!</p> -->
 <!-- <a href="#" class="btn btn-primary btn-sm">Back</a> -->
 
-<div class="card text-white mb-3" style="max-width: 18rem;">
+<div class="card text-black mb-3" style="max-width: 18rem;">
     <div class="card-header bg-secondary">{{issueDetail.issueType.name}}>
     </div>
     <img src="{{issueDetail.imageUrl}}" class="card-img-top" alt="...">
     <div class="card-body bg-success">
         <!-- <h5 class="card-title">Secondary card title</h5> -->
-        <p class="card-text">{{issueDetail.description}}</p>
+        <p class="card-text text-white">{{issueDetail.description}}</p>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item">premier commentaire</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li>
+            <li *ngFor="let comment of comments" class="list-group-item">{{comment.text}}</li>
+            <!-- <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li> -->
         </ul>
         <p class="card-text">{{issueDetail.tags}}</p>
-        <a href="#" class="btn btn-primary btn-sm">Add comment</a>
+        <a (click)="toggleComment()" class="btn btn-primary btn-sm">Comment</a>
         <a href="#" class="btn btn-secondary btn-sm">Update</a>
         <a (click)="deleteIssue(issueDetail)" class="btn btn-danger btn-sm">Delete</a>
+
+        <div *ngIf="newComment">
+            <input #comment type="text" class="form-control" id="comment" placeholder="Add your comment" ngModel name="comment">
+            <a (click)="addComment(issueDetail)" class="btn btn-primary btn-sm">Send</a>
+        </div>
+    </div>
+
+</div>
+
+<p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      Link with href
+    </a>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Button with data-target
+    </button>
+</p>
+<div class="collapse show" id="collapseExample">
+    <div class="card card-body">
+        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
     </div>
 </div>

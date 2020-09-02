@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { Marker, marker } from 'leaflet';
 import { defaultIcon, greenIcon } from 'src/app/components/map/default-marker';
 import { IssueResponse } from 'src/app/models/issue-response';
+import { Commentissue } from 'src/app/models/commentissue';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,22 @@ export class IssueManagmentService {
     console.log('suppression :', id );
     return this.http.delete<any>(`${environment.apiUrl}/issues/${id}`);
   }
+
+  addComment(id: string, newComment: Commentissue): Observable<Commentissue> {
+    console.log('Add comment');
+    return this.http.post<Commentissue>(`${environment.apiUrl}/issues/${id}/comments`, newComment);
+  }
+
+  getComments(id: string): Observable<Commentissue[]> {
+    return this.http.get<Commentissue[]>(`${environment.apiUrl}/issues/${id}/comments`);
+  }
+
+  
+
+
+
+
+
 
 
   // loadAllFakeIssues(): Issue[] {
