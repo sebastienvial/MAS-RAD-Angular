@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private issueService: IssueManagmentService) { }
 
   ngOnInit(): void {
+  }
+
+  search(searchForm: NgForm) {
+    console.log(searchForm);
+    console.log(searchForm.controls.searchTxt.value);
+
+    // this.issueService.
+
+
   }
 
 }
