@@ -10,6 +10,7 @@ import { CitizenPageComponent } from './citizen-page/citizen-page.component';
 import { IssueVueComponent } from './components/issue-vue/issue-vue.component';
 import { IssueCreationComponent } from './components/issue-creation/issue-creation.component';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
+import { IssueUpdateComponent } from './components/issue-update/issue-update.component';
 
 const routes: Routes = [
   // Add this default route to redirect to dummy
@@ -24,6 +25,7 @@ const routes: Routes = [
       { path: 'show', component: IssueVueComponent },
       { path: 'new', component: IssueCreationComponent},
       { path: 'detail', component: IssueDetailComponent},
+      { path: 'update', component: IssueUpdateComponent},
       { path: '', component: IssueVueComponent}
     ]}
 ];

@@ -25,6 +25,7 @@ import { CitizenPageComponent } from './citizen-page/citizen-page.component';
 import { MapComponent } from './components/map/map.component';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { HeaderComponent } from './components/header/header.component';
+import { IssueUpdateComponent } from './components/issue-update/issue-update.component';
 
 // import { FileSelectDirective } from 'ng2-file-upload';
 
@@ -43,6 +44,7 @@ import { HeaderComponent } from './components/header/header.component';
     MapComponent,
     IssueDetailComponent,
     HeaderComponent,
+    IssueUpdateComponent,
   ],
   imports: [
     BrowserModule,

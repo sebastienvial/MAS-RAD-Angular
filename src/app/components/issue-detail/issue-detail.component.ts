@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 import { Issue } from 'src/app/models/issue';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Commentissue } from 'src/app/models/commentissue';
 
 @Component({
@@ -9,14 +9,25 @@ import { Commentissue } from 'src/app/models/commentissue';
   templateUrl: './issue-detail.component.html',
   styleUrls: ['./issue-detail.component.scss']
 })
-export class IssueDetailComponent implements OnInit {
+export class IssueDetailComponent implements OnInit, OnDestroy {
 
   issueDetail: Issue;
   comments: Commentissue[];
   newComment: boolean = false;
   @ViewChild("comment") comment: ElementRef;
+  mySubscription: any;
 
-  constructor(private issueService: IssueManagmentService, private router: Router) { }
+  constructor(private issueService: IssueManagmentService, private router: Router) { 
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Trick the Router into believing it's last link wasn't previously loaded
+        this.router.navigated = false;
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.issueDetail = this.issueService.issueActive;
@@ -24,6 +35,13 @@ export class IssueDetailComponent implements OnInit {
     this.issueService.getComments(this.issueDetail.id).subscribe(c => {
       this.comments = c.slice(0);
     })
+  }
+
+  ngOnDestroy(): void {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
+
   }
 
   deleteIssue(issue: Issue) {
@@ -48,11 +66,19 @@ export class IssueDetailComponent implements OnInit {
       this.issueService.addComment(issue.id,newComment).subscribe(c=>{
         console.log(c);
       });
+
+      // Reload the component with the new comment
+      this.router.navigate(['/citizen', 'detail']);
     }
-    
-
-
-
   }
+
+  updateIssue(issue: Issue) {  
+    // this.showOnMap(issue);
+    //[routerLink]="['/citizen', 'detail']"
+    // this.issueManagmentService.issueActive = issue;
+    this.router.navigate(['/citizen', 'update']);
+  }
+
+ 
 
 }

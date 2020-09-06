@@ -21,8 +21,10 @@ export class IssueManagmentService {
    }
 
   loadAllIssues(): Observable<Issue[]> {
-    return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType`);
+    return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType&search=nouvelle`);
   }
+
+  
 
   // getAllMarkers(): Observable<Marker[]> {
   getAllMarkers() {
