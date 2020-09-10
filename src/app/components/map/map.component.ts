@@ -23,15 +23,16 @@ export class MapComponent implements OnInit {
   newMarkerPosition: Location;
 
   constructor(private issueManagment: IssueManagmentService, private mapManagment: MapManagmentService) { 
-    this.mapManagment.mapOptionsSubject.subscribe((res) => {
-      if(this.mymap) {
-        console.log('remove')
-        this.mymap.removeLayer;
-      }
-      this.mapOptions = res;
-      console.log('mapOptions de la map ',this.mapOptions);
-    });
-    this.mapMarkers = issueManagment.mapMarkers;
+    // this.mapManagment.mapOptionsSubject.subscribe((res) => {
+    //   this.mapOptions = res;
+    //   console.log('mapOptions de la map ',this.mapOptions);
+    // });
+    
+    this.issueManagment.mapMarkersChosen.subscribe(markers => {
+      this.mapMarkers = markers;
+      console.log('marker actifs : ', markers);
+    })
+    // this.mapMarkers = issueManagment.mapMarkers;
   }
 
   ngOnInit(): void {
@@ -64,6 +65,12 @@ export class MapComponent implements OnInit {
 
   onMapReady(map: L.Map){
     this.mymap = map;
+    this.mapManagment.mapOptionsSubject.subscribe((res) => {
+      this.mapOptions = res;
+      console.log('mapOptions de la map ',this.mapOptions);
+      this.mymap.flyTo(this.mapOptions.center,this.mapOptions.zoom);
+    });
   }
+
 
 }

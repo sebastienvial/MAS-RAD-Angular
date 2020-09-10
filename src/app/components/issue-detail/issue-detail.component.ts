@@ -31,6 +31,9 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.issueDetail = this.issueService.issueActive;
+    if (this.issueDetail.imageUrl="") {
+      // this.issueDetail.imageUrl = "https://www.freeiconspng.com/img/23500";
+    }
     //collect comments
     this.issueService.getComments(this.issueDetail.id).subscribe(c => {
       this.comments = c.slice(0);

@@ -6,12 +6,16 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li *ngIf="login" class="nav-item active">
                 <a class="nav-link" [routerLink]="['/citizen', 'show']">Show All Issues<span class="sr-only">(current)</span></a>
             </li>
 
             <li class="nav-item active">
                 <a class="nav-link" [routerLink]="['/citizen', 'new']">Create New Issue<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/login']">Login<span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <form search #searchForm="ngForm" (submit)="search(searchForm)" class="form-inline my-2 my-lg-0">

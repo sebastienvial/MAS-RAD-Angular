@@ -20,7 +20,7 @@ export class IssueCreationComponent implements OnInit {
   issueUpdate : Issue;
 
   private imagesUpload: File[];
-  private imagesUrl: string[];
+  private imagesUrl: string[] = new Array<string>(0);
   
   //identifie la localisation du point sur la carte où se trouve le problème
   @Input() newIssueLocation: Location;
@@ -75,9 +75,10 @@ export class IssueCreationComponent implements OnInit {
       newMarkerPosition.coordinates =  [this.newMarker.getLatLng().lng,this.newMarker.getLatLng().lat];
       newMarkerPosition.type = 'Point'
       // this.sendMarkerPosition.emit(this.newMarkerPosition);
-      this.mapManagment.updateMarkerPosition(newMarkerPosition);
+       this.mapManagment.updateMarkerPosition(newMarkerPosition);
     });
     this.newMarker.bindTooltip('My new issue');
+    this.newMarker.bindPopup("<b>Hello world!</b><br><button class='btn btn-primary'>See details</button>").openPopup();
     this.issueManagmentService.mapMarkers.push(this.newMarker); 
     
   }
@@ -101,6 +102,7 @@ export class IssueCreationComponent implements OnInit {
       // console.log(this.newIssue.issueTypeHref);
       this.newIssue.description = form.controls.description.value;
       console.log(this.imagesUrl);
+
       this.newIssue.imageUrl = this.imagesUrl[0];
       this.newIssue.additionalImageUrls = this.imagesUrl.slice(1);
       this.newIssue.location = this.mapManagment.positionNewMarker.value;

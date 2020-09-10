@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Issue } from 'src/app/models/issue';
 import { environment } from 'src/environments/environment';
 import { Marker, marker } from 'leaflet';
 import { defaultIcon, greenIcon } from 'src/app/components/map/default-marker';
 import { IssueResponse } from 'src/app/models/issue-response';
 import { Commentissue } from 'src/app/models/commentissue';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,42 +15,89 @@ import { Commentissue } from 'src/app/models/commentissue';
 export class IssueManagmentService {
   mapMarkers: Marker[] = new Array<Marker>(0);
   issueActive: Issue;
+  issuesChoice: Issue[];
+
+  public issuesChosen: BehaviorSubject<Issue[]> = new BehaviorSubject<Issue[]>(this.issuesChoice);
+  public mapMarkersChosen: BehaviorSubject<Marker[]> = new BehaviorSubject<Marker[]>(this.mapMarkers);
 
   constructor(private http: HttpClient ) {
-    this.getAllMarkers();
+    // this.getAllMarkers();
+    this.getAllIssues();
     console.log('Les markers sont : ', this.mapMarkers);
    }
 
   loadAllIssues(): Observable<Issue[]> {
-    return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType&search=nouvelle`);
+      return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType`).pipe(
+        map(issues => {
+          this.issuesChosen.next(issues);
+          this.showMarkers(issues);
+          return issues;
+        })
+      );
   }
 
-  
+  loadIssues(searchTxt: string): Observable<Issue[]> {
+      return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType&search=${searchTxt}`).pipe(
+        map(issues => {
+          this.issuesChosen.next(issues);
+          this.showMarkers(issues);
+          return issues;
+        })
+      );
+  }
 
-  // getAllMarkers(): Observable<Marker[]> {
-  getAllMarkers() {
-    // création de Marker
-    // this.mapMarkers = [
-    //   marker([ 46.778186, 6.641524 ], { icon: greenIcon, draggable: true }).bindTooltip('Hello'),
-    //   marker([ 46.780796, 6.647395 ], { icon: greenIcon }),
-    //   marker([ 46.784992, 6.652267 ], { icon: greenIcon })
-    // ];
+  getAllIssues() {
+    this.loadAllIssues().subscribe(res => {
+      this.issuesChoice = res.slice();
+      this.issuesChosen.next(res);
+      this.showMarkers(this.issuesChoice);
+    });
+  }
 
-
-
-    this.loadAllIssues().subscribe(issues => {issues.forEach(issue => {
-      //console.log(issue.location.coordinates);
+  showMarkers(issues: Issue[]) {
+    this.mapMarkers = new Array<Marker>(0);
+    var marker: Marker;
+    issues.forEach(issue => {
+      marker = new Marker([issue.location.coordinates[1],issue.location.coordinates[0]]) ;
       if ( this.issueActive==issue){
-        this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: greenIcon }));  
+        marker.setIcon(greenIcon);
+        marker.bindPopup("<b>Hello world!</b><br><button class='btn btn-primary'>See details</button>").openPopup();
+        // this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: greenIcon }));  
         console.log('marker vert',issue.description);
       } else {
-        this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: defaultIcon }));
+        marker.setIcon(defaultIcon);
+        marker.bindPopup(`<h4>${issue.description}</h4><br><button class='btn btn-primary'>See details</button>`).openPopup();
+        
+        // this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: defaultIcon }));
       }
-    })});
-      
-   
-    
+      this.mapMarkers.push(marker);
+    });
+    this.mapMarkersChosen.next(this.mapMarkers);
   }
+
+   // getAllMarkers(): Observable<Marker[]> {
+  // getAllMarkers() {
+  //   this.getAllIssues().forEach(issue => {
+  //       //console.log(issue.location.coordinates);
+  //       if ( this.issueActive==issue){
+  //         this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: greenIcon }));  
+  //         console.log('marker vert',issue.description);
+  //       } else {
+  //         this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: defaultIcon }));
+  //       }
+  //     })
+
+    
+    // this.loadAllIssues().subscribe(issues => {issues.forEach(issue => {
+    //   //console.log(issue.location.coordinates);
+    //   if ( this.issueActive==issue){
+    //     this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: greenIcon }));  
+    //     console.log('marker vert',issue.description);
+    //   } else {
+    //     this.mapMarkers.push(marker([issue.location.coordinates[1],issue.location.coordinates[0]], { icon: defaultIcon }));
+    //   }
+    // })});    
+  // }
 
   postNewIssue(newIssue: Issue): Observable<Issue> {
     return this.http.post<Issue>(`${environment.apiUrl}/issues`, newIssue);
