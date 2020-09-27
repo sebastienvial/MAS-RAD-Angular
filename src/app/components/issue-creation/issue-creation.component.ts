@@ -9,6 +9,7 @@ import { Marker } from 'leaflet';
 import { redIcon } from '../map/default-marker';
 import { NgForm, SelectMultipleControlValueAccessor} from '@angular/forms';
 import { ImageService } from 'src/app/api/services/image.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-issue-creation',
@@ -31,7 +32,8 @@ export class IssueCreationComponent implements OnInit {
   constructor(private issueTypeService: IssueTypeService, 
               private issueManagmentService: IssueManagmentService, 
               private mapManagment: MapManagmentService,
-              private imgService: ImageService) {
+              private imgService: ImageService,
+              private router: Router) {
                 
     this.issueTypeService.loadAllIssueTypes().subscribe({
       next: (result) => this.issueTypes = result,
@@ -109,14 +111,16 @@ export class IssueCreationComponent implements OnInit {
       
       if (form.controls.tag.value.length>0) {
         var tags: string[];
-        tags = form.controls.tag.value.split(';');
+        tags = form.controls.tag.value.split(',');
         this.newIssue.tags = tags;
       }
-        
-
-
+       
       this.issueManagmentService.postNewIssue(this.newIssue).subscribe({
-        next: (result) => console.log("Result", result),
+        next: (result) => {
+          console.log("Result", result);
+          this.issueManagmentService.getAllIssues();
+          this.router.navigate(['/citizen', 'show']); 
+        },
         error: (error) => console.warn("Error", error),
       }); 
     }

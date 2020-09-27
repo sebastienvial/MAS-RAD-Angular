@@ -1,4 +1,4 @@
-<div class="container mt-3 ">
+<div class="container mt-3 box-width30">
 
     <h2>Login Page</h2>
     <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
@@ -22,7 +22,7 @@
             <p *ngIf="loginError">
                 Unable to log in. See the log for more information.
             </p>
-            <app-logout-button></app-logout-button>
+            <!-- <app-logout-button></app-logout-button> -->
         </div>
     </form>
 </div>

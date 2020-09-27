@@ -1,6 +1,8 @@
 <div class="container">
-    <h1 class="text-right">Application Citizen Engagement</h1>
-    <app-header></app-header>
+    <h1 class="text-center">Application Citizen Engagement
+        <app-logout-button *ngIf="access" class="float-right"></app-logout-button>
+    </h1>
+    <app-header *ngIf="access"></app-header>
 </div>
 <div class="mt-3">
     <router-outlet></router-outlet>

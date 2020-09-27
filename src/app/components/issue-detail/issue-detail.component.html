@@ -1,35 +1,32 @@
-<!-- <p>issue-detail works!</p> -->
-<!-- <a href="#" class="btn btn-primary btn-sm">Back</a> -->
 <div class="scrollClass">
     <div class="card text-black mb-3" style="max-width: 18rem;">
-        <div class="card-header bg-secondary">{{issueDetail.issueType.name}}>
-        </div>
-        <img src="{{issueDetail.imageUrl}}" class="card-img-top" alt="...">
+        <div class="card-header bg-secondary text-white">{{issueDetail.issueType.name}}</div>
+        <img *ngIf=issueDetail.imageUrl src="{{issueDetail.imageUrl}}" class="card-img-top" alt="...">
         <div class="card-body bg-success">
 
             <p class="card-text text-white">{{issueDetail.description}}</p>
-            <h5 class="card-title">Comments</h5>
+            <p> <cite title="Tags">{{issueDetail.tags}}</cite></p>
+
+            <!-- <h5 class="card-title">Comments</h5> -->
+            <div *ngIf="comments.length>0" class="alert alert-success" role="alert">
+                Comments
+            </div>
             <ul class="list-group list-group-flush">
                 <li *ngFor="let comment of comments" class="list-group-item">{{comment.text}}</li>
-                <!-- <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li> -->
             </ul>
-            <p class="card-text">{{issueDetail.tags}}</p>
-            <a (click)="toggleComment()" class="btn btn-primary btn-sm">Comment</a>
-            <a (click)="updateIssue(issueDetail)" class="btn btn-secondary btn-sm">Update</a>
-            <a (click)="deleteIssue(issueDetail)" class="btn btn-danger btn-sm">Delete</a>
 
-            <!-- <div *ngIf="newComment">
-            <input #comment type="text" class="form-control" id="comment" placeholder="Add your comment" ngModel name="comment">
-            <a (click)="addComment(issueDetail)" class="btn btn-primary btn-sm">Send</a>
-        </div> -->
+            <div class="btn-group mt-3" role="group">
+                <a (click)="toggleComment()" class="btn btn-primary btn-sm">Comment</a>
+                <a (click)="updateIssue(issueDetail)" class="btn btn-secondary btn-sm">Update</a>
+                <a (click)="deleteIssue(issueDetail)" class="btn btn-danger btn-sm">Delete</a>
+            </div>
         </div>
 
     </div>
 
     <div *ngIf="newComment">
         <input #comment type="text" class="form-control" id="comment" placeholder="Add your comment" ngModel name="comment">
-        <div>
+        <div class="mt-3">
             <a (click)="addComment(issueDetail)" class="btn btn-primary btn-sm">Send</a>
         </div>
     </div>

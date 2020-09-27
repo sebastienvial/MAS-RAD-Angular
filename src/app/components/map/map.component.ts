@@ -4,6 +4,8 @@ import { defaultIcon, greenIcon, redIcon } from './default-marker';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 import { Location } from 'src/app/models/location';
 import { MapManagmentService } from 'src/app/services/map-managment.service';
+import { Router } from '@angular/router';
+import { Issue } from 'src/app/models/issue';
 
 
 @Component({
@@ -22,7 +24,7 @@ export class MapComponent implements OnInit {
   newMarker: Marker;
   newMarkerPosition: Location;
 
-  constructor(private issueManagment: IssueManagmentService, private mapManagment: MapManagmentService) { 
+  constructor(private issueManagment: IssueManagmentService, private mapManagment: MapManagmentService, private router: Router) { 
     // this.mapManagment.mapOptionsSubject.subscribe((res) => {
     //   this.mapOptions = res;
     //   console.log('mapOptions de la map ',this.mapOptions);
@@ -72,5 +74,6 @@ export class MapComponent implements OnInit {
     });
   }
 
+  
 
 }

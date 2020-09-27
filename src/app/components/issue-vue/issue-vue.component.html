@@ -1,21 +1,14 @@
-<!-- <p>issue-vue works!</p> -->
 <div class="scrollClass">
     <div *ngFor="let issue of allIssues" class="card text-white mb-3" style="max-width: 18rem;">
         <div class="card-header bg-secondary">{{issue.issueType.name}}</div>
-        <div class="card-body bg-success">
-            <!-- <h5 class="card-title">Secondary card title</h5> -->
+        <div class="card-body bg-info">
             <p class="card-text">{{issue.description}}</p>
-            <!-- <a [routerLink]="['/citizen', 'detail']" class="card-link">Detail</a>
-        <a (click)="showOnMap(issue)" class="card-link">Show on map</a> -->
             <div class="btn-group" role="group">
-                <!-- <a [routerLink]="['/citizen', 'detail']" class="btn btn-primary btn-sm">Detail</a> -->
-                <a (click)="showDetail(issue)" class="btn btn-primary btn-sm">Detail</a>
-                <a (click)="showOnMap(issue)" class="btn btn-primary btn-sm">Show on map</a>
+                <button type="button" (click)="showDetail(issue)" class="btn btn-success btn-sm">Detail</button>
+                <button type="button" (click)="showOnMap(issue)" class="btn btn-success btn-sm">Show on map</button>
             </div>
 
 
         </div>
     </div>
 </div>
-
-<!-- <option *ngFor="let issueType of issueTypes" [value]="issueType.name">{{issueType.name}}</option> -->

@@ -20,7 +20,7 @@
     <!-- </div> -->
     <div class=" form-group ">
         <label for="tag">Tag</label>
-        <input type="text " class="form-control " id="tag" placeholder="Ajouter tags séparés par ; " [(ngModel)]="issueToUpdate.tags" name="tag">
+        <input type="text " class="form-control " id="tag" placeholder="Ajouter tags séparés par , " [(ngModel)]="issueToUpdate.tags" name="tag">
     </div>
 
     <button [disabled]="issueForm.invalid" type="submit" class="btn btn-success">Update</button>

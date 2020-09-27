@@ -10,9 +10,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  login: boolean = true;
-
-  constructor(private issueService: IssueManagmentService, private router: Router) { }
+  constructor(private issueService: IssueManagmentService, private router: Router) {}
 
   ngOnInit(): void {
   }
@@ -25,9 +23,6 @@ export class HeaderComponent implements OnInit {
 
 
     });
-
-    // this.issueService.
-
 
   }
 

@@ -12,7 +12,7 @@ import { Commentissue } from 'src/app/models/commentissue';
 export class IssueDetailComponent implements OnInit, OnDestroy {
 
   issueDetail: Issue;
-  comments: Commentissue[];
+  comments: Commentissue[] = new Array<Commentissue>();
   newComment: boolean = false;
   @ViewChild("comment") comment: ElementRef;
   mySubscription: any;
@@ -31,12 +31,12 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.issueDetail = this.issueService.issueActive;
-    if (this.issueDetail.imageUrl="") {
-      // this.issueDetail.imageUrl = "https://www.freeiconspng.com/img/23500";
-    }
+    console.log('detail image : ', this.issueDetail.imageUrl);
+    
     //collect comments
     this.issueService.getComments(this.issueDetail.id).subscribe(c => {
       this.comments = c.slice(0);
+      console.log(this.comments);
     })
   }
 
@@ -49,11 +49,21 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   deleteIssue(issue: Issue) {
     if (confirm('Press OK to delete this issue')) {
-      this.issueService.deleteIssue(issue.id).subscribe(data => console.log(data));
-      this.router.navigate(['/citizen', 'show']);
-    } 
-    
+      this.issueService.deleteIssue(issue.id).subscribe({
+        next: (data) => {
+          console.log(data);
+          this.issueService.getAllIssues();
+          this.router.navigate(['/citizen', 'show']);
+        },
+        error: (error) => console.warn("Delete Issue Error ", error)})
+      } 
   }
+
+
+  // this.issueTypeService.loadAllIssueTypes().subscribe({
+  //   next: (result) => this.issueTypes = result,
+  //   error: (error) => console.warn("Error", error),
+  // }); 
 
   toggleComment() {
     this.newComment = !this.newComment;
