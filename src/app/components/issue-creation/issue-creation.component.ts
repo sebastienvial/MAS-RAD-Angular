@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from 'src/app/models/location';
 import { IssueTypeService } from 'src/app/api/services/issue-type.service';
 import { IssueType } from 'src/app/models/issue-type';
 import { Issue } from 'src/app/models/issue';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 import { MapManagmentService } from 'src/app/services/map-managment.service';
-import { Marker } from 'leaflet';
+import { MapOptions, Marker } from 'leaflet';
 import { redIcon } from '../map/default-marker';
-import { NgForm, SelectMultipleControlValueAccessor} from '@angular/forms';
+import { NgForm} from '@angular/forms';
 import { ImageService } from 'src/app/api/services/image.service';
 import { Router } from '@angular/router';
+import { GeolocationService } from 'src/app/services/geolocation.service';
 
 @Component({
   selector: 'app-issue-creation',
@@ -24,21 +25,27 @@ export class IssueCreationComponent implements OnInit {
   private imagesUrl: string[] = new Array<string>(0);
   
   //identifie la localisation du point sur la carte où se trouve le problème
-  @Input() newIssueLocation: Location;
+  //@Input() newIssueLocation: Location;
   newIssue: Issue;
   issueTypes: IssueType[];
   newMarker: Marker;
+  mapOptions: MapOptions;
 
   constructor(private issueTypeService: IssueTypeService, 
               private issueManagmentService: IssueManagmentService, 
               private mapManagment: MapManagmentService,
               private imgService: ImageService,
-              private router: Router) {
+              private router: Router,
+              private geolocation: GeolocationService) {
                 
     this.issueTypeService.loadAllIssueTypes().subscribe({
       next: (result) => this.issueTypes = result,
       error: (error) => console.warn("Error", error),
     }); 
+
+    this.mapManagment.mapOptionsSubject.subscribe((res) => {
+      this.mapOptions = res;
+    });
    
   }
 
@@ -70,19 +77,30 @@ export class IssueCreationComponent implements OnInit {
 
   initNewIssue() {
     console.log('initialise une nouvelle issue');
+
+    var posLat: number, posLong: number;
+    this.geolocation.getCurrentPosition().then((pos) => {
+      console.log(pos);
+      posLat = pos.coords.latitude;
+      posLong = pos.coords.longitude;
     
-    this.newMarker = new Marker([46.771111, 6.641524], { icon: redIcon, draggable: true });
-    const newMarkerPosition = new Location();
-    this.newMarker.on("moveend", () => {
-      newMarkerPosition.coordinates =  [this.newMarker.getLatLng().lng,this.newMarker.getLatLng().lat];
-      newMarkerPosition.type = 'Point'
-      // this.sendMarkerPosition.emit(this.newMarkerPosition);
-       this.mapManagment.updateMarkerPosition(newMarkerPosition);
-    });
-    this.newMarker.bindTooltip('My new issue');
-    this.newMarker.bindPopup("<b>Hello world!</b><br><button class='btn btn-primary'>See details</button>").openPopup();
-    this.issueManagmentService.mapMarkers.push(this.newMarker); 
+      this.newMarker = new Marker([posLat, posLong], { icon: redIcon, draggable: true });
+      //this.newMarker = new Marker([46.771111, 6.641524], { icon: redIcon, draggable: true });
+
+      this.mapOptions.center = this.newMarker.getLatLng();
+      this.mapManagment.updateMapOptions(this.mapOptions);
     
+      const newMarkerPosition = new Location();
+      this.newMarker.on("moveend", () => {
+        newMarkerPosition.coordinates =  [this.newMarker.getLatLng().lng,this.newMarker.getLatLng().lat];
+        newMarkerPosition.type = 'Point'
+        this.mapManagment.updateMarkerPosition(newMarkerPosition);
+      });
+      
+      this.newMarker.bindTooltip('My new issue');
+      this.newMarker.bindPopup("<b>Hello world!</b><br><button class='btn btn-primary'>See details</button>").openPopup();
+      this.issueManagmentService.mapMarkers.push(this.newMarker); 
+    }); 
   }
 
 

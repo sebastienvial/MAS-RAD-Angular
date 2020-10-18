@@ -9,7 +9,7 @@ import { Marker, MapOptions } from 'leaflet';
 })
 export class MapManagmentService {
 
-  private mapOptions: MapOptions; 
+  private mapOptions: MapOptions = null; 
   mapOptionsSubject= new BehaviorSubject<MapOptions>(this.mapOptions);
   
   positionNewMarker = new BehaviorSubject<Location>(new Location());

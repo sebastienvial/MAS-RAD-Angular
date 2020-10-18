@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 import { Router } from '@angular/router';
-import { fromEvent, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
