@@ -5,6 +5,7 @@ import { MapManagmentService } from 'src/app/services/map-managment.service';
 import { Marker, MapOptions } from 'leaflet';
 import { redIcon, defaultIcon, greenIcon } from '../map/default-marker';
 import { RouterLink, Router } from '@angular/router';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-issue-vue',
@@ -35,10 +36,20 @@ export class IssueVueComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    
+    fromEvent<CustomEvent>(window, 'ngFix').subscribe(res => {
+      let idI = res.detail.id;
+      //console.log("my Detail :", idI);
+
+      this.issueManagmentService.getIssue(idI).subscribe(issue => {
+        //console.log("recup issue : ",issue);
+        this.showDetail(issue);
+      });
+    });
   }
 
   showOnMap(issueActive: Issue) {
-    console.log(issueActive);
+    //console.log(issueActive);
     var markerActif: Marker = new Marker(null);
 
     markerActif = this.issueManagmentService.mapMarkers.find(m => {
@@ -58,7 +69,6 @@ export class IssueVueComponent implements OnInit {
     })
 
   }
-
 
   showDetail(issue: Issue) {
     this.showOnMap(issue);

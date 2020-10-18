@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class IssueManagmentService {
   mapMarkers: Marker[] = new Array<Marker>(0);
   issueActive: Issue;
-  issuesChoice: Issue[];
+  issuesChoice: Issue[] = new Array<Issue>(0);
 
   public issuesChosen: BehaviorSubject<Issue[]> = new BehaviorSubject<Issue[]>(this.issuesChoice);
   public mapMarkersChosen: BehaviorSubject<Marker[]> = new BehaviorSubject<Marker[]>(this.mapMarkers);
@@ -26,7 +26,7 @@ export class IssueManagmentService {
    }
 
   loadAllIssues(): Observable<Issue[]> {
-      return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType`).pipe(
+      return this.http.get<Issue[]>(`${environment.apiUrl}/issues?include=issueType&pageSize=50`).pipe(
         map(issues => {
           this.issuesChosen.next(issues);
           this.showMarkers(issues);
@@ -67,9 +67,18 @@ export class IssueManagmentService {
       marker = new Marker([issue.location.coordinates[1],issue.location.coordinates[0]]) ;
       marker.setIcon(defaultIcon);
       if (issue.imageUrl) {
-        marker.bindPopup(`<div><h4>${issue.description}</h4><br><img src="${issue.imageUrl}" class="card-img-top"></div>`).openPopup();
+        marker.bindPopup(`<div>
+                             <h4>${issue.description}</h4>
+                             <br>
+                             <img src="${issue.imageUrl}" class="card-img-top">
+                             <button type="button" class="btn btn-primary btn-lg btn-block btn-sm" onClick="showDetail('${issue.id}')">Detail</button>
+                          </div>`).openPopup();
       } else {
-        marker.bindPopup(`<div><h4>${issue.description}</h4><br></div>`).openPopup();  
+        marker.bindPopup(`<div>
+                            <h4>${issue.description}</h4>
+                            <br>
+                            <button type="button" class="btn btn-primary btn-lg btn-block btn-sm" onClick="showDetail('${issue.id}')">Detail</button>
+                          </div>`).openPopup();  
       }
     this.mapMarkers.push(marker);
     });
@@ -82,7 +91,7 @@ export class IssueManagmentService {
   }
 
   getIssue(id: string): Observable<Issue> {
-    return this.http.get<Issue>(`${environment.apiUrl}/issues/${id}?inculde=issueType`);
+    return this.http.get<Issue>(`${environment.apiUrl}/issues/${id}?include=issueType`);
   }
 
   patchIssue(id: string, updatedIssue: Issue): Observable<Issue> {

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #0B3B52;">
     <!-- <a class="navbar-brand" href="#">Navbar</a> -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -6,7 +6,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link text-white" [routerLink]="['/citizen', 'show']">Show All Issues<span class="sr-only">(current)</span></a>
             </li>
 
@@ -18,9 +18,12 @@
                 <a class="nav-link text-white" [routerLink]="['/login']">Login<span class="sr-only">(current)</span></a>
             </li> -->
         </ul>
+
+        <h1 class="mr-auto text-white">{{title}}</h1>
         <form search #searchForm="ngForm" (submit)="search(searchForm)" class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" id="searchTxt" ngModel name="searchTxt" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <app-logout-button class="ml-2"></app-logout-button>
     </div>
 </nav>

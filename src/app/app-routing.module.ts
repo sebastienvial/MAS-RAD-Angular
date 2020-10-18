@@ -9,7 +9,7 @@ import { IssueDetailComponent } from './components/issue-detail/issue-detail.com
 import { IssueUpdateComponent } from './components/issue-update/issue-update.component';
 
 const routes: Routes = [
-  // Add this default route to redirect to dummy
+  // Add this default route to redirect to citizen
   { path: "", redirectTo: "citizen", pathMatch: "full" },
   { path: "login", component: LoginPageComponent },
   { path: "citizen", 

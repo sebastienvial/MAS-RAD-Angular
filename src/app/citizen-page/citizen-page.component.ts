@@ -8,22 +8,22 @@ import { Location } from '../models/location';
 })
 export class CitizenPageComponent implements OnInit {
 
-  newMarkerPosition: Location;
-  action: string;
+  // newMarkerPosition: Location;
+  // action: string;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  processMarkerPosition(mp:Location) {
-     this.newMarkerPosition = mp;
-     console.log ("citizen",this.newMarkerPosition);
-  }
+  // processMarkerPosition(mp:Location) {
+  //    this.newMarkerPosition = mp;
+  //    console.log ("citizen",this.newMarkerPosition);
+  // }
 
-  activeIssue(action:string) {
-    this.action = action;
-    console.log('action de activeIssue :', action);
-  }
+  // activeIssue(action:string) {
+  //   this.action = action;
+  //   console.log('action de activeIssue :', action);
+  // }
 
 }

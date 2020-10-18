@@ -8,7 +8,7 @@ import { AuthService } from './security/auth.service';
 })
 
 export class AppComponent {
-  title = 'SV Citizen Engagement';
+  // title = 'SV Citizen Engagement';
   access: boolean = false;
 
   constructor (authService: AuthService) {
@@ -18,7 +18,7 @@ export class AppComponent {
       }
     })
 
-  }
+  }  
 
 }
 

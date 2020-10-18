@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
 import { Router } from '@angular/router';
+import { fromEvent, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
-
+export class HeaderComponent implements OnInit {  
+  title = 'SV Citizen Engagement';
   constructor(private issueService: IssueManagmentService, private router: Router) {}
 
   ngOnInit(): void {
+    
   }
 
   search(searchForm: NgForm) {
@@ -23,6 +25,9 @@ export class HeaderComponent implements OnInit {
 
 
     });
+
+  
+    
 
   }
 

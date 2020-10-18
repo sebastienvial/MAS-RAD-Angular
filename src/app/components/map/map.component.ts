@@ -1,46 +1,33 @@
-import { Component, OnInit, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MapOptions, Marker, TileLayer, Map} from 'leaflet';
-import { defaultIcon, greenIcon, redIcon } from './default-marker';
 import { IssueManagmentService } from 'src/app/api/services/issue-managment.service';
-import { Location } from 'src/app/models/location';
 import { MapManagmentService } from 'src/app/services/map-managment.service';
 import { Router } from '@angular/router';
-import { Issue } from 'src/app/models/issue';
-
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit {
 
-  @Output() sendMarkerPosition = new EventEmitter();
+export class MapComponent implements OnInit {
 
   mapOptions: MapOptions;
   mapMarkers: Marker[] = new Array<Marker>(0);
   mymap: Map;
 
-  newMarker: Marker;
-  newMarkerPosition: Location;
-
   constructor(private issueManagment: IssueManagmentService, private mapManagment: MapManagmentService, private router: Router) { 
-    // this.mapManagment.mapOptionsSubject.subscribe((res) => {
-    //   this.mapOptions = res;
-    //   console.log('mapOptions de la map ',this.mapOptions);
-    // });
     
     this.issueManagment.mapMarkersChosen.subscribe(markers => {
       this.mapMarkers = markers;
-      console.log('marker actifs : ', markers);
+      //console.log('marker actifs : ', markers);
     })
-    // this.mapMarkers = issueManagment.mapMarkers;
+    
   }
 
   ngOnInit(): void {
     this.createMap();   
   } 
-
 
   createMap() {
     const viewPoint = {
@@ -69,11 +56,9 @@ export class MapComponent implements OnInit {
     this.mymap = map;
     this.mapManagment.mapOptionsSubject.subscribe((res) => {
       this.mapOptions = res;
-      console.log('mapOptions de la map ',this.mapOptions);
+      //console.log('mapOptions de la map ',this.mapOptions);
       this.mymap.flyTo(this.mapOptions.center,this.mapOptions.zoom);
     });
-  }
-
-  
+  };
 
 }

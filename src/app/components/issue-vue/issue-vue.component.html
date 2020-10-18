@@ -1,11 +1,11 @@
 <div class="scrollClass">
-    <div *ngFor="let issue of allIssues" class="card text-white mb-3" style="max-width: 18rem;">
+    <div *ngFor="let issue of allIssues" class="card text-white mb-0">
         <div class="card-header bg-secondary">{{issue.issueType.name}}</div>
-        <div class="card-body bg-info">
-            <p class="card-text">{{issue.description}}</p>
-            <div class="btn-group" role="group">
-                <button type="button" (click)="showDetail(issue)" class="btn btn-success btn-sm">Detail</button>
-                <button type="button" (click)="showOnMap(issue)" class="btn btn-success btn-sm">Show on map</button>
+        <div class="card-body" style="background-color:#AEC1DA">
+            <p class=" card-text ">{{issue.description}}</p>
+            <div class="float-right ">
+                <button type="button " (click)="showDetail(issue) " class="btn btn-outline-light btn-sm rounded-circle mr-2 " ngbPopover="Show detail" placement="left" triggers="mouseenter:mouseleave"><i class="fas fa-angle-double-right "></i></button>
+                <button type="button " (click)="showOnMap(issue) " class="btn btn-outline-light btn-sm rounded-circle " ngbPopover="Show on map" placement="left" triggers="mouseenter:mouseleave"><i class="fas fa-globe-americas "></i></button>
             </div>
 
 

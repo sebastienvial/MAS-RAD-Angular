@@ -29,7 +29,7 @@ export class MapManagmentService {
    }
 
   updateMapOptions(mapOptions: MapOptions) {
-    console.log('Update with :',mapOptions);
+    //console.log('Update with :',mapOptions);
     this.mapOptionsSubject.next(mapOptions);
   }
 

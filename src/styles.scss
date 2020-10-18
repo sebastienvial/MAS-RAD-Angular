@@ -11,10 +11,12 @@ body {
 }
 
 .scrollClass {
-    height: 80vh;
+    height: 90vh;
     overflow-y: scroll;
 }
 
 .box-width30 {
     width: 30%;
 }
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

@@ -31,12 +31,12 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.issueDetail = this.issueService.issueActive;
-    console.log('detail image : ', this.issueDetail.imageUrl);
+    //console.log('detail image : ', this.issueDetail.imageUrl);
     
     //collect comments
     this.issueService.getComments(this.issueDetail.id).subscribe(c => {
       this.comments = c.slice(0);
-      console.log(this.comments);
+      //console.log(this.comments);
     })
   }
 
@@ -51,7 +51,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
     if (confirm('Press OK to delete this issue')) {
       this.issueService.deleteIssue(issue.id).subscribe({
         next: (data) => {
-          console.log(data);
+          //console.log(data);
           this.issueService.getAllIssues();
           this.router.navigate(['/citizen', 'show']);
         },
@@ -67,17 +67,17 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
 
   toggleComment() {
     this.newComment = !this.newComment;
-    console.log(this.newComment);
+    //console.log(this.newComment);
   }
 
   addComment(issue: Issue) {
     if (this.comment.nativeElement.value) {
-      console.log('comment of issue : ', issue);
-      console.log(this.comment.nativeElement.value);
+      //console.log('comment of issue : ', issue);
+      //console.log(this.comment.nativeElement.value);
       var newComment: Commentissue = new Commentissue();
       newComment.text = this.comment.nativeElement.value;
       this.issueService.addComment(issue.id,newComment).subscribe(c=>{
-        console.log(c);
+        //console.log(c);
       });
 
       // Reload the component with the new comment

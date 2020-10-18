@@ -1,12 +1,11 @@
-<!-- <p>citizen-page works!</p> -->
-<div class="container">
-    <div class="row">
+<div class="container-fluid">
+    <div class="row no-gutters">
         <div class="col-3">
-            <!-- <app-issue [newIssueLocation]="newMarkerPosition" [action]="action"></app-issue> -->
             <router-outlet></router-outlet>
         </div>
         <div class="col-9">
-            <app-map (sendMarkerPosition)="processMarkerPosition($event)"></app-map>
+            <!-- <app-map (sendMarkerPosition)="processMarkerPosition($event)"></app-map> -->
+            <app-map></app-map>
         </div>
     </div>
 </div>

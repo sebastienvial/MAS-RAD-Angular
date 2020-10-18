@@ -12,8 +12,9 @@ import { SecurityModule } from './security/security.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
-import { AlertModule } from 'ngx-bootstrap/alert';
-import { SidebarModule } from 'ng-sidebar';
+// import { AlertModule } from 'ngx-bootstrap/alert';
+// import { SidebarModule } from 'ng-sidebar';
+
 import { FormsModule } from '@angular/forms';
 import { IssueCreationComponent } from './components/issue-creation/issue-creation.component';
 import { IssueVueComponent } from './components/issue-vue/issue-vue.component';
@@ -22,8 +23,7 @@ import { MapComponent } from './components/map/map.component';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { HeaderComponent } from './components/header/header.component';
 import { IssueUpdateComponent } from './components/issue-update/issue-update.component';
-
-// import { FileSelectDirective } from 'ng2-file-upload';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -45,9 +45,10 @@ import { IssueUpdateComponent } from './components/issue-update/issue-update.com
     SecurityModule,
     BrowserAnimationsModule,
     LeafletModule,
-    AlertModule.forRoot(),
-    SidebarModule.forRoot(),
+    // AlertModule.forRoot(),
+    // SidebarModule.forRoot(),
     FormsModule,
+    NgbModule,
   ],
   providers: [
     {
