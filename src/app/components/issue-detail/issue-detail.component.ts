@@ -59,12 +59,6 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
       } 
   }
 
-
-  // this.issueTypeService.loadAllIssueTypes().subscribe({
-  //   next: (result) => this.issueTypes = result,
-  //   error: (error) => console.warn("Error", error),
-  // }); 
-
   toggleComment() {
     this.newComment = !this.newComment;
     //console.log(this.newComment);
@@ -85,10 +79,7 @@ export class IssueDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateIssue(issue: Issue) {  
-    // this.showOnMap(issue);
-    //[routerLink]="['/citizen', 'detail']"
-    // this.issueManagmentService.issueActive = issue;
+  updateIssue(issue: Issue) { 
     this.router.navigate(['/citizen', 'update']);
   }
 
